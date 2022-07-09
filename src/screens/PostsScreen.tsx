@@ -12,6 +12,7 @@ import { IPost } from '../interfaces/IPosts'
 import { RootStackParamList } from '../stack/StackApp'
 
 type PostsScreen = NativeStackNavigationProp<RootStackParamList, 'PostsScreen'>;
+
 export const PostsScreen = () => {
 
     const [posts, setPosts] = useState<IPost[] | null>(null);
@@ -20,17 +21,24 @@ export const PostsScreen = () => {
     
 
     useEffect(() => {
-        console.log('info')
         http.get<IPost[]>('/posts')
             .then(response => {
                 setPosts(response.data)
             })
 
+
     }, [])
 
     return (
         <View style={{flex: 1}}>
-            <Button onPress={() => navigator.navigate('DestacadosScreen')}>Post Destacados</Button>
+            <View style={{ marginHorizontal: 10, marginVertical: 20}}>
+                <Button 
+                    mode='outlined'
+                    onPress={() => navigator.navigate('DestacadosScreen')}
+                >
+                    Posts Destacados
+                </Button>
+            </View>
             { posts ? 
                 <View style={{flex: 1}}>
                     <PostsList posts={posts}></PostsList>
